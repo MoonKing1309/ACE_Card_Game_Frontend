@@ -1,25 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import JoinGame from "./components/joinGame";
+import { useEffect, useState } from "react";
+import Home from "./components/home";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setLoggedIn(Boolean(token));
+  }, []);
+
+  // when logged in we show the JoinGame form (allows joining other rooms),
+  // otherwise show the initial Home login/create form.
+  return loggedIn ? <JoinGame /> : <Home />;
 }
 
 export default App;
+export const isLoggedIn = () => Boolean(localStorage.getItem("token"));
